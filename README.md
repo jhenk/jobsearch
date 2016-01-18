@@ -1,0 +1,13 @@
+# jobsearch
+CRM website
+
+PHP code to create a CRM package used in tracking archive and active potential employers and agencies.
+Actively deployed on author's Mac using MAMP package.
+
+To Do:
+   Clean up usage of SESSION superglobal
+   Expand too-short SQL fields
+   add feature to store job descriptions
+   add feature to report on date-range activities
+   in Contact Name search results, add link to Company page
+   
