@@ -1,0 +1,12 @@
+#container {
+	width: 900px;
+	background-color: #D1C0A7;
+}
+
+#header {
+	width: 900px;
+	height: 50px;
+	border-bottom: 2px solid #000000;
+	background-color: #F8AA3C;
+}
+
