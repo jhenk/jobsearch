@@ -1,5 +1,17 @@
 <?php
 
+require_once 'login.php';
+require_once 'connect.php';
+require_once 'db_tools.php';
+
+if (! $argv[1]) {
+    print "Usage: php today
+       php date                  (for single date reporting)
+       php begin_date end_date   (for date range reporting)\n";
+    print "date format example - 03/10/2016\n\n";
+    exit;
+}
+
 $$myresult = "";
 $state = "";
 $mainSearchKey = "";
@@ -7,12 +19,20 @@ $r = "";
 $j = 0;
 $companies = array();
 $text_array = array();
-$beginDate = "02/09/2016";
-$endDate = "02/10/2016";
 
-require_once 'login.php';
-require_once 'connect.php';
-require_once 'db_tools.php';
+$today = date("m/d/Y");
+
+if ($argv[1] == "today") {
+    $beginDate = $today;
+} else {
+   $beginDate = $argv[1];
+}
+
+if (! $argv[2]) {
+   $endDate = $beginDate;
+} else {
+   $endDate = $argv[2];
+}
 
 $_POST['AllCompanies'] = "SET";
 $companies = getcompaniestable($db, $mainSearchKey);
