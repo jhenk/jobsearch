@@ -4,14 +4,6 @@ require_once 'login.php';
 require_once 'connect.php';
 require_once 'db_tools.php';
 
-if (! $argv[1]) {
-    print "Usage: php today
-       php date                  (for single date reporting)
-       php begin_date end_date   (for date range reporting)\n";
-    print "date format example - 03/10/2016\n\n";
-    exit;
-}
-
 $$myresult = "";
 $state = "";
 $mainSearchKey = "";
@@ -20,21 +12,56 @@ $j = 0;
 $companies = array();
 $text_array = array();
 
+if (! $argv[1]) {
+   print "Missing parameter\n";
+   Usage($argv[0]);
+}
+
 $today = date("m/d/Y");
 
 if ($argv[1] == "today") {
     $beginDate = $today;
+    $endDate = $today;
+    print "*** Setting Begin date to $beginDate and Ending date to $endDate\n\n";
+    if ($argv[2]) {
+        print "*** Ignoring subsequent arguments\n\n";
+    }
 } else {
-   $beginDate = $argv[1];
+    $beginDate = $argv[1];
 }
 
-if (! $argv[2]) {
-   $endDate = $beginDate;
-} else {
-   $endDate = $argv[2];
+if (! $endDate) {               // not 'today'
+    if ($argv[2]) {
+        $endDate = $argv[2];    // date range
+    } else {
+        $endDate = $argv[1];    // single date
+    }
 }
+
+if (! checkIsAValidDate($beginDate)) {
+    print "*** " . $beginDate . " is not a valid Date\n";
+    $oops = true;
+}
+
+if (! checkIsAValidDate($endDate)) {
+    print "*** " . $endDate . " is not a valid date\n";
+    $oops = true;
+}
+
+if (strtotime($endDate) < strtotime($beginDate)) {
+    print "*** " . $beginDate . " is *after* $endDate\n";
+    $oops = true;
+}
+
+if ($oops) {
+    Usage($argv[0]);
+    exit;
+}
+
+print "\n";
 
 $_POST['AllCompanies'] = "SET";
+
 $companies = getcompaniestable($db, $mainSearchKey);
 $companiesidxmax = count($companies) - 1;
 
@@ -54,6 +81,18 @@ while($j <= $companiesidxmax) {
     }
 
     $j++;
+}
+
+function checkIsAValidDate($myDateString){
+    return (bool)strtotime($myDateString);
+}
+
+function Usage($script_name) {
+    print "Usage: php " . $script_name . " today
+       php " . $script_name . " date                  (for single date reporting)
+       php " . $script_name . " begin_date end_date   (for date range reporting)\n";
+    print "date format example - 03/10/2016\n\n";
+    exit;
 }
 
 function process_text($text_in, $openRange, $closingRange) {
