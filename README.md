@@ -13,3 +13,4 @@ To Do:
    in Contact Name search results, add link to Company page
    add auto-populate (with warnings) in case of empty or non-existent database
    add inline security
+End of file
