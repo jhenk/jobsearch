@@ -3,6 +3,7 @@
 $myresult = "";
 $state = "";
 $mainSearchKey = "";
+$contactSearchKey = "";
 $r = "";
 $j = 0;
 $companies = array();

@@ -19,7 +19,7 @@ if (!empty($_SESSION['compname'])) {
 }
 
 $_POST['AllCompanies'] = '1';
-$companies = getcompaniestable($db);
+$companies = getcompaniestable($db, $compname);
 $companiesidxmax = count($companies) - 1;
 
 if (isset($_POST['AddContactSubmit'])) {
