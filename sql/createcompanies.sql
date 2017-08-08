@@ -10,6 +10,7 @@ CREATE TABLE companies (
 	compemail CHAR(40),
 	compphone VARCHAR(25),
 	compfax VARCHAR(25),
+	compactive VARCHAR(1),
     comptext TEXT
 );
 
@@ -17,8 +18,8 @@ INSERT into companies
 	VALUES ("No Company", "", "", "", "1", "", "", "", "", "");
 
 INSERT into companies
-	VALUES ("First Company", "123 Any Street", "", "Anaheim, NV  12345", "1", "www.firstco.com", "anyaddy@firstco.com", "(858) 692-8120", "(858) 629-8130", "");
+	VALUES ("First Company", "123 Any Street", "", "Anaheim, NV  12345", "1", "www.firstco.com", "anyaddy@firstco.com", "(858) 692-8120", "(858) 629-8130", "1", "");
 
 INSERT into companies
-	VALUES ("Second Company", "725 Main St", "", "Glendora, CA 91740", "2", "www.secondco.com", "anyaddy@secondco.org", "(345) 246-8024", "(345) 246-8039", "");
+	VALUES ("Second Company", "725 Main St", "", "Glendora, CA 91740", "2", "www.secondco.com", "anyaddy@secondco.org", "(345) 246-8024", "(345) 246-8039", "1", "");
 	
