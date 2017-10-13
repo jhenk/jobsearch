@@ -12,6 +12,12 @@ $j = 0;
 $k = 0;
 
 session_start();
+#PRINT "SESSION: ";
+#print_r($_SESSION);
+#print "<>br><br>";
+#PRINT "POST: ";
+#print_r($_POST);
+#print "<>br><br>";
 
 if ((isset($_POST['company_to_show'])) && (!is_null($_POST['company_to_show']))) {
 	$compname = $_POST['company_to_show'];
@@ -21,7 +27,10 @@ if ((isset($_POST['company_to_show'])) && (!is_null($_POST['company_to_show'])))
 } elseif (isset($_POST['ShowCompanySubmit'])) {
 	$compname = $_SESSION['compname'];
     $_SESSION['comptext'] = $_POST['comptext'];
+} else {
+    $compname = $_SESSION['compname'];
 }
+
 
 $company = getcompany($db, $compname);
 $contacts = getcompanycontacts($db, $compname);
@@ -35,7 +44,8 @@ $compwebsite = $company[5];
 $compemail = $company[6];
 $compphone = $company[7];
 $compfax = $company[8];
-if ((isset($_POST['company_to_show'])) && (!is_null($_POST['company_to_show']))) {
+if ((isset($_POST['company_to_show'])) && (!is_null($_POST['company_to_show'])) 
+    || (isset($_SESSION['compname']))) {
     $comptext = $company[9];
 } elseif (isset($_POST['ShowCompanySubmit'])) {
     $comptext = $_POST['comptext'];
@@ -176,14 +186,14 @@ function ConfirmContactPost() {
 	echo "<H1>$compname</H1>\n";
 ?>
 	<div span style="float:left;">
-		<form method="post" action="/jobsearch/edit_a_company.php">
+		<form method="post" action="edit_a_company.php">
 <?php
 	echo "		<input type=\"submit\" value = \"Edit Company\" name=\"EditCompany\" $disabledflag>\n";
 ?>
 		</form>
 	</div>
 	<div span style="float:left;">
-		<form method="post" action="/jobsearch/mainmenu.php">
+		<form method="post" action="mainmenu.php">
 <?php
 	echo "		<input type=\"submit\" value=\"Delete Company\" name=\"DeleteCompanySubmit\" onClick=\"return confirmPost()\" $disabledflag>\n";
 ?>
@@ -207,11 +217,11 @@ echo "\t&nbsp;&nbsp;Active:\t$activetype\n";
 	<hr>
 	<H3>Contacts</H3>
 	<b>
- 	<form method="post" action="/jobsearch/add_a_contact.php">
+ 	<form method="post" action="add_a_contact.php">
  		<input type="submit" value = "Add a Contact" name="NewContact"/>
  	</form>
 <?php
-    echo "<form method=\"post\" action=\"/jobsearch/edit_a_contact.php\">";
+    echo "<form method=\"post\" action=\"edit_a_contact.php\">";
 	while($j < $contactsidxmax) {
         $namescontrollist = "<input type=\"radio\" name=\"contact_to_edit\"";
         if (isset($choosecontact) && $choosecontact==$contacts[$j]['contactname']) {
@@ -238,7 +248,7 @@ echo "\t&nbsp;&nbsp;Active:\t$activetype\n";
 ?>
     </form>
     
-    <form method="post" action="/jobsearch/show_a_company.php" name="textform" id="textform">
+    <form method="post" action="show_a_company.php" name="textform" id="textform">
         <H3>Items - Remember to click 'Update Items'!!!</H3>
 <?php
         echo "<input onclick='input()' type='button' value='Add Date' id='button'>\n";
