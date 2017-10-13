@@ -1,6 +1,9 @@
-DROP TABLE contacts2;
+CREATE DATABASE IF NOT EXISTS jobsearch;
+use jobsearch;
 
-CREATE TABLE contacts2 (
+DROP TABLE IF EXISTS contacts;
+
+CREATE TABLE contacts (
    contactname VARCHAR(30),
    contactcomp VARCHAR(30),
    contactjobtype CHAR(1),
@@ -12,4 +15,4 @@ CREATE TABLE contacts2 (
    contactphone3 VARCHAR(25),
    contacttype3 CHAR(6) );
 
-INSERT INTO jobsearch2.contacts2  SELECT contactname, contactcomp, contactjobtype, contactemail, contactphone, 'office', contactfax, '', '', '' from jobsearch.contacts;
+INSERT INTO contacts  SELECT contactname, contactcomp, contactjobtype, contactemail, contactphone, 'office', contactfax, '', '', '' from contacts;

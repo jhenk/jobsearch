@@ -1,4 +1,7 @@
-DROP TABLE contacts;
+CREATE DATABASE IF NOT EXISTS jobsearch;
+use jobsearch;
+
+DROP TABLE IF EXISTS contacts;
 
 CREATE TABLE contacts (
 	contactname VARCHAR(30),
