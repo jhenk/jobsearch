@@ -15,6 +15,15 @@ require_once 'login.php';
 require_once 'connect.php';
 require_once 'db_tools.php';
 
+date_default_timezone_set('America/Los_Angeles');
+
+$openingDate = new DateTime();
+$endingDate = new DateTime();
+
+$openingDate->modify('-1 week');
+#print date_format($openingDate, 'm-d-Y') . "\n";
+#print date_format($endingDate, 'Y-m-d') . "\n";
+
 #print_r($_POST);
 
 if (isset($_POST['DeleteCompanySubmit'])) {
@@ -69,6 +78,7 @@ print "\n";
 	<link href="style.css" rel="stylesheet" type="text/css">
 	<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"> 
 	<title>Main Menu</title>
+	<script type="text/javascript" src="http://services.iperfect.net/js/IP_generalLib.js"></script>
 </head>
 
 <body>
@@ -180,6 +190,19 @@ print "\n";
         echo "$searchtermsubmit";
 ?>
 
+	</form>
+
+	<hr>
+
+	<H3>Activity Report - (Not Ready yet)</H3>
+	<form method="post" action="date_report.php">
+	From Date: 
+		<input type="text" id="FromDate" name="FromDate" value="<?php echo date_format($openingDate, 'm/d/Y'); ?>" alt="date" class="IP_calendar" title="m/d/Y">
+		<br>
+	To Date: 
+		<input type="text" id="ToDate" name="ToDate" value="<?php echo date_format($endingDate, 'm/d/Y'); ?>" alt="date" class="IP_calendar" title="m/d/Y">
+		<br>
+		<input type="submit" value = "Generate Report" name="TestThing1">
 	</form>
 	<br>
 	<hr>
