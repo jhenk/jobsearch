@@ -12,12 +12,12 @@ $j = 0;
 $k = 0;
 
 session_start();
-#PRINT "SESSION: ";
-#print_r($_SESSION);
-#print "<>br><br>";
-#PRINT "POST: ";
-#print_r($_POST);
-#print "<>br><br>";
+// PRINT "SESSION: ";
+// print_r($_SESSION);
+// print "<>br><br>";
+// PRINT "POST: ";
+// print_r($_POST);
+// print "<>br><br>";
 
 if ((isset($_POST['company_to_show'])) && (!is_null($_POST['company_to_show']))) {
 	$compname = $_POST['company_to_show'];
@@ -26,7 +26,7 @@ if ((isset($_POST['company_to_show'])) && (!is_null($_POST['company_to_show'])))
     $_SESSION['company_to_edit'] = $compname;
 } elseif (isset($_POST['ShowCompanySubmit'])) {
 	$compname = $_SESSION['compname'];
-    $_SESSION['comptext'] = $_POST['comptext'];
+    $_SESSION['comptext'] = $_POST['comptextedit'];
 } else {
     $compname = $_SESSION['compname'];
 }

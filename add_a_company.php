@@ -89,7 +89,7 @@ echo <<<_END
 		<br>
 		Street <input type="text" name="compstreet1" text size=30 value = $compstreet1 >
 		<br>
-		Street <input type="text" name="compstreet"2 text size=30 value = $compstreet2 >
+		Street <input type="text" name="compstreet2" text size=30 value = $compstreet2 >
         	<br>
 		City, ST Zip <input type="text" name="compcitystatezip"  text size=40 value = $compcitystatezip >
 		<br><br>

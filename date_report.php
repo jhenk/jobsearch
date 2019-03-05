@@ -45,8 +45,8 @@ $eDate = $_POST['ToDate'];
 $eReportDate = new DateTime($eDate);
 $oReportDate = new DateTime($oDate);
 
-$companies = getcompaniestable($db, $mainSearchKey);
-$contacts = getcontactstable($db, $contactSearchKey);
+$companies = getcompaniestable($db, "");
+$contacts = getcontactstable($db, "");
 
 $companiesidxmax = count($companies) - 1;
 $contactsidxmax = count($contacts) - 1;
@@ -123,30 +123,20 @@ function add_date_records_to_final_ary($comp_record_ary) {
 //         var_dump($myitemary[$j]);
          $bigmax = $bigmax + 1;
          $date_string = retrieve_date($myitemary[$j]);
-         $min_date = "1969/12/31";
-         # print "date_string - " . $date_string . "  - oDate - " . convert_date_to_y_m_d($oDate)  . " - eDate - " . convert_date_to_y_m_d($eDate) . "<br>\n";
-         if (($date_string > $min_date) && ($date_string >= convert_date_to_y_m_d($oDate)) && ($date_string <= convert_date_to_y_m_d($eDate))) {
-            $item_string = retrieve_item($myitemary[$j]);
-            $element_ary = array($comp_record_ary[0], $date_string, $item_string);
-            array_push($final_ary, $element_ary);
-            // print $bigmax . ") " . $date_string . "  -  " . $comp_record_ary[0] . "\n";
+         if ($date_string != "") {
+            $min_date = "1969/12/31";
+            # print "date_string - " . $date_string . "  - oDate - " . convert_date_to_y_m_d($oDate)  . " - eDate - " . convert_date_to_y_m_d($eDate) . "<br>\n";
+            if (($date_string > $min_date) && ($date_string >= convert_date_to_y_m_d($oDate)) && ($date_string <= convert_date_to_y_m_d($eDate))) {
+               $item_string = retrieve_item($myitemary[$j]);
+               $element_ary = array($comp_record_ary[0], $date_string, $item_string);
+               array_push($final_ary, $element_ary);
+               // print $bigmax . ") " . $date_string . "  -  " . $comp_record_ary[0] . "\n";
+            }
          }
       }
    }
    // print "bigmax is $bigmax\n";
 }
-
-function retrieve_date($in_string) {  
-   $matches = array();
-   $matches = preg_split("/(Sunday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Monday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Tuesday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Wednesday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Thursday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Friday\s->\s\\d\d\/\d\d\/\d\d\d\d:\s|Saturday\s->\s\d\d\/\d\d\/\d\d\d\d:\s)/", $in_string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-
-   $date = preg_split("/(Sunday\s->\s|Monday\s->\s|Tuesday\s->\s|Wednesday\s->\s|Thursday\s->\s|Friday\s->\s|Saturday\s->\s)/", $matches[0]);
-   $date1 = preg_split("/(\d\d\/\d\d\/\d\d\d\d)/", $date[1], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-
-   $convertedDate = convert_date_to_y_m_d($date1[0]);
-    
-   return $convertedDate;  
-} 
 
 function convert_date_to_y_m_d($in_date) {
   $final_date = date('Y/m/d', strtotime($in_date));
@@ -157,6 +147,25 @@ function convert_date_to_m_d_y($in_date) {
   $final_date = date('m/d/Y', strtotime($in_date));
   return $final_date;
 }
+
+function retrieve_date($in_string) {  
+   $matches = array();
+   $matches = preg_split("/(Sunday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Monday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Tuesday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Wednesday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Thursday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Friday\s->\s\\d\d\/\d\d\/\d\d\d\d:\s|Saturday\s->\s\d\d\/\d\d\/\d\d\d\d:\s)/", $in_string, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+   $date = preg_split("/(Sunday\s->\s|Monday\s->\s|Tuesday\s->\s|Wednesday\s->\s|Thursday\s->\s|Friday\s->\s|Saturday\s->\s)/", $matches[0]);
+   if (isset($date[1])) {
+      $date1 = preg_split("/(\d\d\/\d\d\/\d\d\d\d)/", $date[1], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+      if (isset($date1[0])) {
+         $convertedDate = convert_date_to_y_m_d($date1[0]);
+         return $convertedDate;
+      } else {
+         return "";
+      }
+   } else {
+      return "";
+   }
+} 
+
 function retrieve_item($in_string) {  
    $matches = array();
    $matches = preg_split("/(Sunday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Monday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Tuesday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Wednesday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Thursday\s->\s\d\d\/\d\d\/\d\d\d\d:\s|Friday\s->\s\\d\d\/\d\d\/\d\d\d\d:\s|Saturday\s->\s\d\d\/\d\d\/\d\d\d\d:\s)/", $in_string);
